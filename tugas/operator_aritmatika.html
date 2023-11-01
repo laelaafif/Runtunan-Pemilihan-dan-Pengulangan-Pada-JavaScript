@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Aritmatika</title>
+    
+    <style>
+        body {
+            background: #7e353f;
+        }
+    
+        /* CSS kustom untuk pusat vertikal */
+        .center-vertically {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh; /* Mengisi tinggi layar penuh */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kalkulator Aritmatika</h1>
+        <form id="calculator-form">
+            <div class="input-group">
+                <label for="operand1">Bilangan Pertama:</label>
+                <input type="text" id="operand1" name="operand1" required>
+            </div>
+            <div class="input-group">
+                <label for="operator">Pilih Operasi:</label>
+                <select id="operator" name="operator" required>
+                    <option value="add">Penjumlahan</option>
+                    <option value="subtract">Pengurangan</option>
+                    <option value="multiply">Perkalian</option>
+                    <option value="divide">Pembagian</option>
+                    <option value="modulus">Sisa Hasil Bagi</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="operand2">Bilangan Kedua:</label>
+                <input type="text" id="operand2" name="operand2" required>
+            </div>
+            <button type="button" id="calculate-button">Hitung</button>
+            <button type="button" id="reset-button">Reset</button>
+        </form>
+        <div id="result" class="result">
+            <!-- Hasil perhitungan akan ditampilkan di sini -->
+        </div>
+    </div>
+
+    <script>
+        // Ambil elemen-elemen dari formulir dan hasil
+        const calculatorForm = document.getElementById("calculator-form");
+        const operand1Input = document.getElementById("operand1");
+        const operand2Input = document.getElementById("operand2");
+        const operatorSelect = document.getElementById("operator");
+        const resultDiv = document.getElementById("result");
+
+        // Fungsi untuk melakukan perhitungan
+        function calculate() {
+            const operand1 = parseFloat(operand1Input.value);
+            const operand2 = parseFloat(operand2Input.value);
+            const operator = operatorSelect.value;
+
+            let result;
+
+            switch (operator) {
+                case "add":
+                    result = operand1 + operand2;
+                    break;
+                case "subtract":
+                    result = operand1 - operand2;
+                    break;
+                case "multiply":
+                    result = operand1 * operand2;
+                    break;
+                case "divide":
+                    if (operand2 === 0) {
+                        resultDiv.textContent = "Tidak bisa membagi dengan nol.";
+                        return;
+                    }
+                    result = operand1 / operand2;
+                    break;
+                case "modulus":
+                    if (operand2 === 0) {
+                        resultDiv.textContent = "Tidak bisa menghitung sisa hasil bagi dengan nol.";
+                        return;
+                    }
+                    result = operand1 % operand2;
+                    break;
+                default:
+                    resultDiv.textContent = "Operasi tidak valid.";
+                    return;
+            }
+
+            resultDiv.textContent = `Hasil: ${result}`;
+        }
+
+        // Fungsi untuk mereset formulir
+        function resetForm() {
+            operand1Input.value = "";
+            operand2Input.value = "";
+            operatorSelect.value = "add";
+            resultDiv.textContent = "";
+        }
+
+        // Tambahkan event listener ke tombol hitung
+        const calculateButton = document.getElementById("calculate-button");
+        calculateButton.addEventListener("click", calculate);
+
+        // Tambahkan event listener ke tombol reset
+        const resetButton = document.getElementById("reset-button");
+        resetButton.addEventListener("click", resetForm);
+    </script>
+</body>
+</html>
+

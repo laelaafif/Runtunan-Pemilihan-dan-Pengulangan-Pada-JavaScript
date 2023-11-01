@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaji Bersih Karyawan</title>
+    <style>
+        body {
+            background: #41457e;
+        }
+
+        /* CSS kustom untuk pusat vertikal */
+        .center-vertically {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh; /* Mengisi tinggi layar penuh */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gaji Bersih Karyawan</h1>
+        <form id="salary-calculator-form">
+            <div class="input-group">
+                <label for="nama-karyawan">Nama Karyawan:</label>
+                <input type="text" id="nama-karyawan" name="nama-karyawan" required>
+            </div>
+            <div class="input-group">
+                <label for="gaji-pokok">Gaji Pokok:</label>
+                <input type="text" id="gaji-pokok" name="gaji-pokok" required>
+            </div>
+            <div class="input-group">
+                <label for="tunjangan">Tunjangan:</label>
+                <input type="text" id="tunjangan" name="tunjangan">
+            </div>
+            <div class="input-group">
+                <label for="pajak">Pajak (%):</label>
+                <input type="text" id="pajak" name="pajak" required>
+            </div>
+            <div class="input-group">
+                <label for="gaji-bersih">Gaji Bersih:</label>
+                <span id="gaji-bersih">-</span>
+            </div>
+            <button type="button" id="calculate-salary-button">Hitung Gaji</button>
+            <button type="button" id="reset-button">Reset</button>
+        </form>
+    </div>
+
+    <script>
+        // Ambil elemen-elemen formulir dan hasil
+        const namaKaryawanInput = document.getElementById("nama-karyawan");
+        const gajiPokokInput = document.getElementById("gaji-pokok");
+        const tunjanganInput = document.getElementById("tunjangan");
+        const pajakInput = document.getElementById("pajak");
+        const gajiBersihSpan = document.getElementById("gaji-bersih");
+
+        // Fungsi untuk menghitung gaji karyawan
+        function calculateSalary() {
+            const namaKaryawan = namaKaryawanInput.value;
+            const gajiPokok = parseFloat(gajiPokokInput.value);
+            const tunjangan = parseFloat(tunjanganInput.value) || 0;
+            const pajak = parseFloat(pajakInput.value);
+
+            if (namaKaryawan === "" || isNaN(gajiPokok) || isNaN(pajak)) {
+                gajiBersihSpan.textContent = "Silakan isi semua bidang dengan benar.";
+            } else {
+                const gajiBersih = gajiPokok + tunjangan - (gajiPokok * (pajak / 100));
+                gajiBersihSpan.textContent = `Gaji Bersih untuk ${namaKaryawan}: ${gajiBersih}`;
+            }
+        }
+
+        // Fungsi untuk mereset formulir
+        function resetForm() {
+            namaKaryawanInput.value = "";
+            gajiPokokInput.value = "";
+            tunjanganInput.value = "";
+            pajakInput.value = "";
+            gajiBersihSpan.textContent = "-";
+        }
+
+        // Tambahkan event listener ke tombol "Hitung Gaji"
+        const calculateSalaryButton = document.getElementById("calculate-salary-button");
+        calculateSalaryButton.addEventListener("click", calculateSalary);
+
+        // Tambahkan event listener ke tombol "Reset"
+        const resetButton = document.getElementById("reset-button");
+        resetButton.addEventListener("click", resetForm);
+    </script>
+</body>
+</html>
